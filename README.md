@@ -49,7 +49,7 @@ json-sanitizer/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/json-sanitizer.git
+git clone https://github.com/MTawhid7/json-sanitizer.git
 cd json-sanitizer
 ```
 
@@ -60,7 +60,7 @@ Open the `settings.json` file and modify the paths to match your environment. Yo
 ```json
 {
   "inputFile": "input.json",
-  "outputDir": "cleaned_text",
+  "outputDir": "output",
   "logLevel": 1
 }
 ```
