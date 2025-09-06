@@ -1,0 +1,26 @@
+# Go build outputs
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# The project binary
+json-sanitizer
+
+# Log files and directories
+logs/
+*.log
+
+# Generated output
+# This is the new line to exclude the output directory
+output/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor-specific files
+.vscode/
+.idea/
+*.swp
