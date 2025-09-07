@@ -8,10 +8,11 @@ A robust Go application designed to process complex, nested JSON files. It recur
 
 -   **Recursive Processing**: Traverses any complex and deeply nested JSON structure to find all string values.
 -   **Configuration Driven**: All paths and settings are managed via a simple `settings.json` file—no need for command-line arguments.
--   **Text Sanitization**: Cleans text of common escape sequences (`\n`, `\*`) and other artifacts.
--   **Robust Error Handling**: Includes detailed logging to an `app.log` file for easy debugging.
--   **Safe Filename Generation**: Automatically sanitizes JSON keys to create valid filenames, even if they contain illegal characters like `/`.
--   **Modular Codebase**: Organized into logical packages (`config`, `processor`, `fileutils`) for maintainability and scalability.
+-   **Text Sanitization**: Cleans text of common escape sequences (`\n`, `\t`, `\"`) and removes all asterisks (`*`) for a cleaner, human-readable output.
+-   **Robust Error Handling**: Includes detailed logging to an `app.log` file for easy debugging and operational insights.
+-   **Safe Filename Generation**: Automatically sanitizes JSON keys to create valid and unique filenames, even if they contain illegal characters like `/` or spaces.
+-   **Modular Codebase**: Organized into logical packages (`config`, `processor`, `fileutils`) for maintainability, testability, and scalability.
+-   **Makefile Integration**: Streamlines common development tasks like building, running, and cleaning the project with simple commands.
 
 ---
 
@@ -20,21 +21,22 @@ A robust Go application designed to process complex, nested JSON files. It recur
 ```
 json-sanitizer/
 ├── config/
-│   └── config.go
+│   └── config.go             # Handles loading application configuration
 ├── internal/
 │   ├── processor/
-│   │   └── sanitizer.go
+│   │   └── sanitizer.go      # Contains text cleaning logic
 │   └── fileutils/
-│       └── fileutils.go
+│       └── fileutils.go      # Manages file read/write operations
 ├── logs/
-│   └── app.log
-├── .gitignore
-├── go.mod
-├── LICENSE
-├── main.go
-├── README.md
-├── input.json      (Example input)
-└── settings.json
+│   └── app.log               # Application log file (ignored by Git)
+├── .gitignore                # Specifies files/directories to ignore in Git
+├── go.mod                    # Go module definition
+├── LICENSE                   # Project license (MIT)
+├── main.go                   # The main application entry point and orchestrator
+├── Makefile                  # Defines convenient commands for development tasks
+├── README.md                 # Project documentation
+├── input.json                # Example input JSON file
+└── settings.json             # Application configuration file
 ```
 
 ---
@@ -45,11 +47,12 @@ json-sanitizer/
 
 -   Go (version 1.18 or newer) installed on your system.
 -   Git installed on your system.
+-   `make` utility (typically pre-installed on macOS/Linux).
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/MTawhid7/json-sanitizer.git
+git clone https://github.com/YOUR_USERNAME/json-sanitizer.git
 cd json-sanitizer
 ```
 
@@ -68,12 +71,52 @@ Open the `settings.json` file and modify the paths to match your environment. Yo
 -   `outputDir`: The path to the folder where the cleaned `.txt` files will be saved.
 -   `logLevel`: The verbosity of the logger (1: Info, 2: Debug, 3: Error).
 
-### 3. Run the Program
+### 3. Using the Makefile Commands
 
-Execute the following command from the root of the project directory:
+The project includes a `Makefile` to simplify common development tasks. Run these commands from the root of your project directory.
+
+#### `make run` - Run the application
+
+This command compiles and executes the `main.go` program directly. It's ideal for quick testing during development.
 
 ```bash
-go run main.go
+make run
 ```
 
-The program will read your configuration, process the input file, and generate the cleaned text files in your specified output directory. Check `logs/app.log` for a detailed execution summary or any errors.
+#### `make build` - Build the executable
+
+This command compiles the application into a standalone executable binary named `json-sanitizer` in the project root. This binary can be run directly without needing the Go toolchain installed.
+
+```bash
+make build
+# To run the built executable:
+# ./json-sanitizer
+```
+
+#### `make clean` - Clean the project
+
+This command removes all generated files, including the output directory (as specified in `settings.json`) and any compiled executable (`json-sanitizer`). This helps maintain a clean workspace.
+
+```bash
+make clean
+```
+
+---
+
+## How it Works
+
+The application reads the `settings.json` for configuration. It then recursively traverses the input JSON file. For every string value encountered, it sanitizes the text (removing escape sequences and special characters like asterisks) and saves it to a new `.txt` file. Filenames are automatically generated by combining the nested JSON keys, ensuring unique and valid names for each output file.
+
+Check `logs/app.log` for a detailed execution summary and any potential errors or skipped fields.
+
+---
+
+## Contributing
+
+Feel free to fork the repository, open issues, or submit pull requests.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
